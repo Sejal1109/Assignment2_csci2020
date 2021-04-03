@@ -1,3 +1,4 @@
+package sample;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
@@ -15,12 +16,12 @@ public class fileServerClient extends Frame {
 	public static String ClientFolder;
 	public static String CompName;
 
-	//we can read this from the user too
 	public  static String SERVER_ADDRESS = "localhost";
-	public  static int    SERVER_PORT = 16789;
+	public  static int    SERVER_PORT = 16790;
 
-	public fileServerClient() {
+	public fileServerClient(String s) {
 
+		ClientFolder = s;
 
 		try {
 			socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
@@ -40,68 +41,49 @@ public class fileServerClient extends Frame {
 			System.err.println("IOEXception while opening a read/write connection");
 		}
 
-		boolean ok;
-		ok = processUserInput();
-
-		try {
-			socket.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
-	// Display Menu  of actions
-	// Alternatively you can always be in "reading mode" whatever is typed gets send to the server/other clients without they having to "List all messages"
-	// -- This would work 100x better and easier if you make at least the client a JavaFX application, the user can type in a textbox, when pressed <enter> you send the message
-	// --- Every time the server gets a message they send to all the other clients who get their UI refreshed with the most recent messages, etc.
-	protected boolean processUserInput() {
-		String input = null;
-
-		// print the menu
-		System.out.println("Commands: ");
-		System.out.println("DIR -  To display contents of Server Directory");
-		System.out.println("UPLOAD - to upload a file to the server");
-		System.out.println("DOWNLOAD - to download a file from server");
-		System.out.println("QUIT");
-		System.out.print("Command> ");
-
-		try {
-			input = in.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		if (input.equals("DIR")) {
-			listAllFiles();
-		} else if (input.equals("UPLOAD")) {
-			uploadNewFile();
-		} else if(input.equals("DOWNLOAD")){
-			downloadFileFromServer();
-		}
-		else if (input.equals("QUIT")) {
-			return false;
-		} else{
-			System.out.println("Invalid Command. Please Try Again! ");
-		}
-		return true;
-	}
+//	protected boolean processUserInput() {
+//		String input = null;
+//
+//		// print the menu
+//		System.out.println("Commands: ");
+//		System.out.println("DIR -  To display contents of Server Directory");
+//		System.out.println("UPLOAD - to upload a file to the server");
+//		System.out.println("DOWNLOAD - to download a file from server");
+//		System.out.println("QUIT");
+//		System.out.print("Command> ");
+//
+//		try {
+//			input = in.readLine();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		if (input.equals("DIR")) {
+//			listAllFiles();
+//		} else if (input.equals("UPLOAD")) {
+//			uploadNewFile();
+//		} else if(input.equals("DOWNLOAD")){
+//			downloadFileFromServer();
+//		}
+//		else if (input.equals("QUIT")) {
+//			return false;
+//		} else{
+//			System.out.println("Invalid Command. Please Try Again! ");
+//		}
+//		return true;
+//	}
 
 	//menu option 3
-	public void downloadFileFromServer() {
-		String fileName = null;
+	public void downloadFileFromServer(String fileName) {
 		String data = null;
 
-		System.out.print("Filename: ");
-		try {
-			fileName = in.readLine();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		networkOut.println("DOWNLOAD " + fileName);
 		try{
 			data = networkIn.readLine();
 			String data2w[] = data.split("/");
-
-			File output = new File(ClientFolder + fileName);
+			String path = ClientFolder + "\\" +fileName;
+			File output = new File(path);
 			FileWriter fin = new FileWriter(output);
 			for(int i=0; i<data2w.length; i++){
 				fin.append(data2w[i] + "\n");
@@ -116,14 +98,12 @@ public class fileServerClient extends Frame {
 	}
 
 	// menu option 2
-	public void uploadNewFile() {
-		String fileName = null;
+	public void uploadNewFile(String fileName) {
 		String message = null;
-
-		System.out.print("Filename: ");
+		String path = ClientFolder + "\\" +fileName;
 		try {
-			fileName = in.readLine();
-			File myFile = new File(ClientFolder + fileName);
+
+			File myFile = new File(path);
 			FileReader fr = new FileReader(myFile);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
@@ -133,8 +113,8 @@ public class fileServerClient extends Frame {
 		} catch (IOException e) {
 			System.err.println("Error reading from socket");
 		}
-		String filePath = ClientFolder + fileName;
-		networkOut.println("UPLOAD " + filePath);
+
+		networkOut.println("UPLOAD " + path);
 		try{
 			message = networkIn.readLine();
 		}
@@ -145,29 +125,44 @@ public class fileServerClient extends Frame {
 	}
 
 	// menu option 1
-	public void listAllFiles(){
+	public String[] listAllFiles(){
 		String File = null;
 		networkOut.println("DIR");
 		try {
 			File = networkIn.readLine();
 		} catch (IOException e) {
-			System.err.println("Error reading from socket");
+			e.printStackTrace();
 		}
 		String files[] = File.split(",");
 
-		for (int i=0; i<files.length; i++) {
-			System.out.println(files[i]);
+		return files;
+	}
+
+	public void openLocalFile(String fileName){
+		String path = ClientFolder + "\\" +fileName;
+		try{
+			File file = new File(path);
+			if(!Desktop.isDesktopSupported())//check if Desktop is supported by Platform or not
+			{
+				System.out.println("not supported");
+				return;
+			}
+			Desktop desktop = Desktop.getDesktop();
+			if(file.exists())         //checks file exists or not
+				desktop.open(file);              //opens the specified file
 		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+
+	}
+	public void openServerFile(String file){
+
+		networkOut.println("OPEN "+ file);
 	}
 
 	public static void main(String[] args) {
-		if (args.length <= 1) {
-			System.out.println("Usage: java fileServerClient <Computer Name> <Client Folder Path> [<port>=80]");
-			System.exit(0);
-		}
-			CompName = args[0];
-			ClientFolder = args[1];
 
-			fileServerClient client = new fileServerClient();
 	}
 }

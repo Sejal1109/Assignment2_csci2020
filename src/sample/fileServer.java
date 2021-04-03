@@ -1,3 +1,4 @@
+package sample;
 import java.io.*;
 import java.net.*;
 import java.util.Vector;
@@ -9,7 +10,7 @@ public class fileServer {
 	protected int numClients                = 0;
 	protected Vector messages               = new Vector();
 
-	public static int SERVER_PORT = 16789;
+	public static int SERVER_PORT = 16790;
 	public static int MAX_CLIENTS = 25;
 
 	public fileServer() {
@@ -28,7 +29,7 @@ public class fileServer {
 				numClients++;
 			}
 		} catch (IOException e) {
-			System.err.println("IOException while creating server connection");
+			e.printStackTrace();
 		}
 	}
 

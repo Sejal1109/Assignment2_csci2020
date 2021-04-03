@@ -1,3 +1,5 @@
+package sample;
+import java.awt.*;
 import java.io.*;
 import java.net.*;
 import java.nio.file.Files;
@@ -63,8 +65,8 @@ public class fileServerThread extends Thread {
 
 		// these are the other possible commands
 		if (command.equalsIgnoreCase("DIR")) {
-			String filenames=" ";
-			File allFiles = new File(".\\Server_data");
+			String filenames="";
+			File allFiles = new File("C:\\Assignment2_csci2020\\Server_data\\");
 			if (allFiles.isDirectory()) {
 				File[] content = allFiles.listFiles();
 				for (File current: content) {
@@ -79,7 +81,7 @@ public class fileServerThread extends Thread {
 				File myFile = new File(arguments);
 
 				String v = myFile.getName();
-				File dest = new File(".\\Server_data\\" + v);
+				File dest = new File("C:\\Assignment2_csci2020\\Server_data\\" + v);
 				InputStream is = new FileInputStream(myFile);
 				OutputStream os = new FileOutputStream(dest);
 
@@ -99,8 +101,8 @@ public class fileServerThread extends Thread {
 			return true;
 		} else if (command.equalsIgnoreCase("DOWNLOAD")) {
 			try{
-				File currFile = new File(".\\Server_data\\" + arguments);
-				String data = " ";
+				File currFile = new File("C:\\Assignment2_csci2020\\Server_data\\" + arguments);
+				String data = "";
 				BufferedReader br = new BufferedReader(new FileReader(currFile));
 				String line;
 				while ((line = br.readLine())!= null){
@@ -109,6 +111,23 @@ public class fileServerThread extends Thread {
 				out.println(data);
 				}
 			catch (IOException e){
+				e.printStackTrace();
+			}
+			return true;
+		}
+		else if (command.equalsIgnoreCase("OPEN")) {
+			try{
+				File file = new File("C:\\Assignment2_csci2020\\Server_data\\" + arguments);
+				if(!Desktop.isDesktopSupported())//check if Desktop is supported by Platform or not
+				{
+					System.out.println("not supported");
+				}
+				Desktop desktop = Desktop.getDesktop();
+				if(file.exists())         //checks file exists or not
+					desktop.open(file);              //opens the specified file
+			}
+			catch(Exception e)
+			{
 				e.printStackTrace();
 			}
 			return true;
