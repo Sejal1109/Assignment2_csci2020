@@ -13,6 +13,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
@@ -56,13 +57,17 @@ public class Main extends Application {
         updatePane(sp, dirs, localFiles);
 
         Button btn1 = new Button("Download");
-        btn1.setStyle("-fx-background-color: #f5d678; -fx-border-color:black; -fx-text-fill: black;");
+        btn1.setStyle("-fx-background-color: #f5d678; -fx-border-color:black; -fx-text-fill: black; -fx-border-radius: 8px; -fx-background-radius: 9px");
+        btn1.setFont(new Font("Verdana", 15));
         Button btn2 = new Button("Upload");
-        btn2.setStyle("-fx-background-color: #e9fa9d; -fx-border-color:black; -fx-text-fill: black;");
+        btn2.setStyle("-fx-background-color: #e9fa9d; -fx-border-color:black; -fx-text-fill: black; -fx-border-radius: 8px; -fx-background-radius: 9px");
+        btn2.setFont(new Font("Verdana", 15));
         Button btn3 = new Button("Open Local File");
-        btn3.setStyle("-fx-background-color: #fac59d; -fx-border-color:black; -fx-text-fill: black;");
+        btn3.setStyle("-fx-background-color: #fac59d; -fx-border-color:black; -fx-text-fill: black; -fx-border-radius: 8px; -fx-background-radius: 9px");
+        btn3.setFont(new Font("Verdana", 15));
         Button btn4 = new Button("Open Server File");
-        btn4.setStyle("-fx-background-color: #f0a8c6; -fx-border-color:black; -fx-text-fill: black;");
+        btn4.setStyle("-fx-background-color: #f0a8c6; -fx-border-color:black; -fx-text-fill: black; -fx-border-radius: 8px; -fx-background-radius: 9px");
+        btn4.setFont(new Font("Verdana", 15));
 
         btn1.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -159,6 +164,7 @@ public class Main extends Application {
         LocalTree = new TreeView<String>(localItems);
         ServerTree = new TreeView<String>(items);
         LocalTree.setStyle(
+                "  -fx-font-family: Arial;\n" +
                 "  -fx-base: #cf98ed ;\n" +
                 "  -fx-control-inner-background: derive(-fx-base,20%);\n" +
                 "  -fx-control-inner-background-alt: derive(-fx-control-inner-background,-10%);\n" +
@@ -167,6 +173,7 @@ public class Main extends Application {
                 "  -fx-selection-bar: #f5698e;\n" +
                 "  -fx-selection-bar-non-focused: #7dabf5\n");
         ServerTree.setStyle(
+                "  -fx-font-family: Arial;\n" +
                 "  -fx-base: #93f5b7 ;\n" +
                 "  -fx-control-inner-background: derive(-fx-base,20%);\n" +
                 "  -fx-control-inner-background-alt: derive(-fx-control-inner-background,-10%);\n" +
