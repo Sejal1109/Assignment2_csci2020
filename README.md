@@ -28,24 +28,35 @@ Working UI:
 ![image](https://user-images.githubusercontent.com/56410993/113494406-e5c7cc80-94b5-11eb-85e3-f3f56ca1d840.png)
 
 2. UI
+
 ![image](https://user-images.githubusercontent.com/56410993/113494416-fc6e2380-94b5-11eb-9c5f-e736cff92a6d.png)
 
 3. Download button before
+
 ![image](https://user-images.githubusercontent.com/56410993/113494433-1f003c80-94b6-11eb-9d42-0450b8a4d099.png)
+
 After:
+
 ![image](https://user-images.githubusercontent.com/56410993/113494441-29223b00-94b6-11eb-8cc9-d4cb21e93fb4.png)
 
+
 4. Upload Button before
+
 ![image](https://user-images.githubusercontent.com/56410993/113494449-39d2b100-94b6-11eb-9175-b88f920f25d1.png)
 
 after:
+
 ![image](https://user-images.githubusercontent.com/56410993/113494458-4f47db00-94b6-11eb-98cb-79081bcfa821.png)
+
 (Also outputs the contents of the file on  terminal)
 
+
 5. Open Local File:
+
 ![image](https://user-images.githubusercontent.com/56410993/113494475-79010200-94b6-11eb-8b2a-813146234e8c.png)
 
 6. Open Server File:
+
 ![image](https://user-images.githubusercontent.com/56410993/113494478-87e7b480-94b6-11eb-997c-6cd8df789072.png)
 
 
